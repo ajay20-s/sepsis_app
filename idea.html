@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Project Idea - Sepsis Survival Predictor</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-light">
+    <div class="container py-5">
+      <h2 class="mb-4 text-center">
+        Project Overview: Sepsis Survival Predictor
+      </h2>
+
+      <div class="mb-5">
+        <h4>What is Sepsis?</h4>
+        <p>
+          Sepsis is a potentially life-threatening condition that occurs when
+          the body's response to an infection causes injury to its own tissues
+          and organs. It can progress rapidly and lead to septic shock,
+          multi-organ failure, and death if not treated promptly.
+        </p>
+
+        <h4>How Sepsis Attacks the Body</h4>
+        <p>
+          Sepsis usually starts with an infection (such as pneumonia, urinary
+          tract infection, or skin infection). The immune system releases
+          chemicals into the bloodstream to fight the infection, but instead of
+          helping, these chemicals trigger widespread inflammation. This can
+          lead to blood clots, leaky blood vessels, and reduced blood flow to
+          vital organs, causing organ damage.
+        </p>
+
+        <h4>Symptoms of Sepsis</h4>
+        <ul>
+          <li>Fever, chills, or feeling very cold</li>
+          <li>Rapid heartbeat or breathing</li>
+          <li>Confusion or disorientation</li>
+          <li>Extreme pain or discomfort</li>
+          <li>Low blood pressure</li>
+        </ul>
+
+        <h4>Precautions and Prevention</h4>
+        <ul>
+          <li>Stay up-to-date with vaccinations</li>
+          <li>Practice good hygiene (handwashing, wound care)</li>
+          <li>Seek medical help for infections promptly</li>
+          <li>
+            Be vigilant about changes in health, especially in vulnerable
+            populations (elderly, immunocompromised)
+          </li>
+        </ul>
+
+        <h4>How We Predict Sepsis Survival</h4>
+        <p>Our machine learning model uses three key inputs:</p>
+        <ul>
+          <li><strong>Age</strong>: The age of the patient</li>
+          <li><strong>Gender</strong>: 0 for Male, 1 for Female</li>
+          <li>
+            <strong>Episode Number</strong>: Represents the number of sepsis
+            episodes or hospitalizations
+          </li>
+        </ul>
+        <p>
+          Based on these inputs, the model predicts the likelihood of survival:
+          either <strong>Alive</strong> or <strong>Dead</strong>.
+        </p>
+      </div>
+
+      <div class="mb-5">
+        <h4>Project Proposal</h4>
+        <a
+          class="btn btn-outline-primary me-2 mb-2"
+          href="{{ url_for('static', filename='files/Project_Proposal.pdf') }}"
+          download
+        >
+          Project Proposal
+        </a>
+
+        <h4>Research_Paper</h4>
+        <a
+          class="btn btn-outline-primary me-2 mb-2"
+          href="{{ url_for('static', filename='files/Research_Paper.pdf') }}"
+          download
+        >
+          Research_Paper
+        </a>
+        <h4>sepsis study cohort</h4>
+        <a
+          class="btn btn-outline-success mb-2"
+          href="{{ url_for('static', filename='files/s41598-020-73558-3_sepsis_survival_study_cohort.csv') }}"
+          download
+        >
+          sepsis study cohort
+        </a>
+        <h4>sepsis survival validation cohort</h4>
+        <a
+          class="btn btn-outline-success mb-2"
+          href="{{ url_for('static', filename='files/s41598-020-73558-3_sepsis_survival_validation_cohort.csv') }}"
+          download
+        >
+          sepsis survival validation cohort
+        </a>
+      </div>
+
+      <div class="text-center">
+        <a href="{{ url_for('home') }}" class="btn btn-secondary"
+          >← Back to Prediction</a
+        >
+      </div>
+    </div>
+  </body>
+</html>
