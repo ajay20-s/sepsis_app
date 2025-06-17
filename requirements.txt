@@ -38,7 +38,6 @@ sklearn==0.0
 sqlalchemy==2.0.41
 sympy==1.13.3
 threadpoolctl==3.5.0
-torch==2.4.1
 typing-extensions==4.12.2
 tzdata==2024.2
 werkzeug==3.0.6
