@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sepsis Prediction History</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(to right, #e3f2fd, #fce4ec);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding-top: 40px;
+      }
+
+      .container {
+        background: white;
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+
+      h3 {
+        color: #0d47a1;
+        font-weight: 600;
+      }
+
+      .table th,
+      .table td {
+        vertical-align: middle;
+      }
+
+      .text-danger {
+        color: #c62828 !important;
+      }
+
+      .text-success {
+        color: #2e7d32 !important;
+      }
+
+      .table thead {
+        background-color: #e3f2fd;
+      }
+
+      .alert-info {
+        border-radius: 10px;
+        font-weight: 500;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3 class="mb-4 text-center">Sepsis Prediction History</h3>
+
+      <!-- TABLE -->
+      <table class="table table-bordered table-striped text-center">
+        <thead class="table-primary">
+          <tr>
+            <th>Date/Time</th>
+            <th>Temp (&deg;C)</th>
+            <th>HR</th>
+            <th>RR</th>
+            <th>Syst BP</th>
+            <th>Diast BP</th>
+            <th>Lactate</th>
+            <th>Result</th>
+            <th>Prob.</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-06-17 14:30</td>
+            <td>37.6</td>
+            <td>98</td>
+            <td>22</td>
+            <td>120</td>
+            <td>80</td>
+            <td>2.3</td>
+            <td><span class="fw-bold text-danger">High</span></td>
+            <td>84.2%</td>
+          </tr>
+          <tr>
+            <td>2025-06-15 11:00</td>
+            <td>36.8</td>
+            <td>72</td>
+            <td>18</td>
+            <td>110</td>
+            <td>75</td>
+            <td>1.1</td>
+            <td><span class="fw-bold text-success">Low</span></td>
+            <td>12.7%</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- CHARTS -->
+      <div class="row mt-5">
+        <div class="col-md-6 mb-4">
+          <canvas id="riskPieChart"></canvas>
+        </div>
+        <div class="col-md-6 mb-4">
+          <canvas id="lactateLineChart"></canvas>
+        </div>
+        <div class="col-md-12">
+          <canvas id="probabilityBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      // Sample data from table
+      const timestamps = ["2025-06-17 14:30", "2025-06-15 11:00"];
+      const lactate = [2.3, 1.1];
+      const probs = [84.2, 12.7];
+      const results = ["High", "Low"];
+
+      // Pie chart for High/Low results
+      const riskPieData = {
+        labels: ["High Risk", "Low Risk"],
+        datasets: [
+          {
+            data: [
+              results.filter((r) => r === "High").length,
+              results.filter((r) => r === "Low").length,
+            ],
+            backgroundColor: ["#e53935", "#43a047"],
+            hoverOffset: 10,
+          },
+        ],
+      };
+
+      new Chart(document.getElementById("riskPieChart"), {
+        type: "pie",
+        data: riskPieData,
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Sepsis Risk Distribution",
+              font: { size: 18 },
+            },
+          },
+        },
+      });
+
+      // Line chart for Lactate
+      new Chart(document.getElementById("lactateLineChart"), {
+        type: "line",
+        data: {
+          labels: timestamps,
+          datasets: [
+            {
+              label: "Lactate Level",
+              data: lactate,
+              borderColor: "#1e88e5",
+              backgroundColor: "#bbdefb",
+              tension: 0.3,
+              fill: true,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Lactate Over Time",
+              font: { size: 18 },
+            },
+          },
+          scales: {
+            y: { beginAtZero: true, title: { display: true, text: "mmol/L" } },
+            x: { title: { display: true, text: "Date/Time" } },
+          },
+        },
+      });
+
+      // Bar chart for Probabilities
+      new Chart(document.getElementById("probabilityBarChart"), {
+        type: "bar",
+        data: {
+          labels: timestamps,
+          datasets: [
+            {
+              label: "Sepsis Probability (%)",
+              data: probs,
+              backgroundColor: "#8e24aa",
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Predicted Sepsis Probability",
+              font: { size: 18 },
+            },
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              max: 100,
+              title: { display: true, text: "%" },
+            },
+            x: { title: { display: true, text: "Date/Time" } },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

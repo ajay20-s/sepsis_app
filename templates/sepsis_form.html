@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Sepsis Prediction</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(to right, #e3f2fd, #fce4ec);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .container {
+        background: white;
+        padding: 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      }
+      h2 {
+        color: #0d47a1;
+        font-weight: 600;
+      }
+      label {
+        font-weight: 500;
+      }
+      .form-control {
+        border-radius: 10px;
+        box-shadow: none;
+        border-color: #bdbdbd;
+        transition: border-color 0.3s;
+      }
+      .form-control:focus {
+        border-color: #0d47a1;
+        box-shadow: 0 0 0 0.2rem rgba(13, 71, 161, 0.25);
+      }
+      .btn-primary {
+        background-color: #0d47a1;
+        border: none;
+        border-radius: 10px;
+        padding: 10px 25px;
+        font-size: 16px;
+      }
+      .btn-primary:hover {
+        background-color: #1565c0;
+      }
+      .alert-danger {
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="mb-4 text-center">Sepsis Prediction</h2>
+      {% if error %}
+      <div class="alert alert-danger">{{ error }}</div>
+      {% endif %}
+      <form method="post">
+        <div class="row">
+          {% for field in [ 'temperature', 'heart_rate', 'resp_rate',
+          'systolic_bp', 'diastolic_bp', 'wbc', 'platelets', 'lactate',
+          'creatinine', 'bilirubin', 'spo2'] %}
+          <div class="col-md-4 mb-4">
+            <label>{{ field.replace('_', ' ').title() }}</label>
+            <input
+              type="number"
+              step="any"
+              class="form-control"
+              name="{{ field }}"
+              required
+            />
+          </div>
+          {% endfor %}
+        </div>
+        <div class="text-center">
+          <button type="submit" class="btn btn-primary mt-3">Predict</button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>

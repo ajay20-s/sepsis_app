@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prediction History</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background: linear-gradient(to right, #e3f2fd, #fce4ec);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        padding-top: 40px;
+      }
+
+      .container {
+        background-color: #ffffff;
+        padding: 40px 30px;
+        border-radius: 10px;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        margin-top: 50px;
+        max-width: 900px;
+      }
+
+      h3 {
+        font-weight: 600;
+        color: #333;
+        text-align: center;
+        margin-bottom: 30px;
+      }
+
+      table.table {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        overflow: hidden;
+      }
+
+      table th {
+        background-color: #007bff;
+        color: white;
+        text-align: center;
+      }
+
+      table td {
+        text-align: center;
+        vertical-align: middle;
+      }
+
+      table tr:hover {
+        background-color: #f1f9ff;
+      }
+
+      .alert {
+        margin-top: 20px;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 25px 15px;
+        }
+
+        table th,
+        table td {
+          font-size: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h3>Survival‑Prediction History</h3>
+
+      <!-- Table -->
+      <table class="table table-striped table-bordered">
+        <thead>
+          <tr>
+            <th>Date/Time</th>
+            <th>Age</th>
+            <th>Gender</th>
+            <th>Episode</th>
+            <th>Result</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>2025-06-17 12:30</td>
+            <td>45</td>
+            <td>Male</td>
+            <td>2</td>
+            <td><strong class="text-success">Alive</strong></td>
+          </tr>
+          <tr>
+            <td>2025-06-15 10:05</td>
+            <td>70</td>
+            <td>Female</td>
+            <td>1</td>
+            <td><strong class="text-danger">Dead</strong></td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Charts -->
+      <div class="row mt-5">
+        <div class="col-md-6 mb-4">
+          <canvas id="survivalPie"></canvas>
+        </div>
+        <div class="col-md-6 mb-4">
+          <canvas id="episodeBar"></canvas>
+        </div>
+        <div class="col-md-12 mb-4">
+          <canvas id="trendLine"></canvas>
+        </div>
+      </div>
+    </div>
+
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+      const dates = ["2025-06-17 12:30", "2025-06-15 10:05"];
+      const genders = ["Male", "Female"];
+      const episodes = [2, 1];
+      const results = ["Alive", "Dead"];
+
+      // Pie Chart: Alive vs Dead
+      const survivalPie = new Chart(document.getElementById("survivalPie"), {
+        type: "pie",
+        data: {
+          labels: ["Alive", "Dead"],
+          datasets: [
+            {
+              data: [
+                results.filter((r) => r === "Alive").length,
+                results.filter((r) => r === "Dead").length,
+              ],
+              backgroundColor: ["#4caf50", "#e53935"],
+              hoverOffset: 10,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Survival Outcome Distribution",
+              font: { size: 18 },
+            },
+          },
+        },
+      });
+
+      // Bar Chart: Episodes by Gender
+      const maleEpi = episodes[genders.indexOf("Male")] || 0;
+      const femaleEpi = episodes[genders.indexOf("Female")] || 0;
+      const episodeBar = new Chart(document.getElementById("episodeBar"), {
+        type: "bar",
+        data: {
+          labels: ["Male", "Female"],
+          datasets: [
+            {
+              label: "Episode Count",
+              data: [maleEpi, femaleEpi],
+              backgroundColor: ["#2196f3", "#f06292"],
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Episode Count by Gender",
+              font: { size: 18 },
+            },
+          },
+          scales: {
+            y: { beginAtZero: true },
+          },
+        },
+      });
+
+      // Line Chart: Survival trend over time
+      const aliveLineData = results.map((r) => (r === "Alive" ? 1 : 0));
+      const deadLineData = results.map((r) => (r === "Dead" ? 1 : 0));
+
+      const trendLine = new Chart(document.getElementById("trendLine"), {
+        type: "line",
+        data: {
+          labels: dates,
+          datasets: [
+            {
+              label: "Alive",
+              data: aliveLineData,
+              borderColor: "#4caf50",
+              fill: false,
+              tension: 0.3,
+            },
+            {
+              label: "Dead",
+              data: deadLineData,
+              borderColor: "#e53935",
+              fill: false,
+              tension: 0.3,
+            },
+          ],
+        },
+        options: {
+          plugins: {
+            title: {
+              display: true,
+              text: "Survival Trend Over Time",
+              font: { size: 18 },
+            },
+          },
+          scales: {
+            y: {
+              ticks: {
+                callback: (value) => (value === 1 ? "Yes" : "No"),
+              },
+              stepSize: 1,
+              min: 0,
+              max: 1,
+            },
+          },
+        },
+      });
+    </script>
+  </body>
+</html>

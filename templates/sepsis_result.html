@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Prediction Result</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <style>
+      body {
+        background: linear-gradient(to right, #f3e5f5, #e1f5fe);
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+      .container {
+        background: white;
+        padding: 50px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+        max-width: 600px;
+      }
+      h2 {
+        color: #2c3e50;
+        font-weight: 600;
+      }
+      .alert {
+        font-size: 18px;
+        border-radius: 12px;
+      }
+      .alert-danger {
+        background-color: #ffebee;
+        color: #c62828;
+        border-color: #ef9a9a;
+      }
+      .alert-success {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border-color: #a5d6a7;
+      }
+      .btn-secondary {
+        border-radius: 10px;
+        padding: 10px 25px;
+        font-size: 16px;
+        background-color: #455a64;
+        border: none;
+      }
+      .btn-secondary:hover {
+        background-color: #263238;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5 text-center">
+      <h2>Prediction Result</h2>
+      {% if prediction == 1 %}
+      <div class="alert alert-danger mt-4">
+        <strong>Alert!</strong> High risk of Sepsis<br />
+        Probability: <strong>{{ (probability * 100) | round(2) }}%</strong>
+      </div>
+      {% else %}
+      <div class="alert alert-success mt-4">
+        <strong>Good News!</strong> Low risk of Sepsis<br />
+        Probability: <strong>{{ (probability * 100) | round(2) }}%</strong>
+      </div>
+      {% endif %}
+      <a href="/home" class="btn btn-secondary mt-3">Go Back</a>
+    </div>
+  </body>
+</html>
